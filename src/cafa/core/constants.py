@@ -1,0 +1,7 @@
+UNKNOWN_TAXON_ID = 0
+
+# Start with a letter A to be the first in sorted classes_ before GO:00XXXX
+UNKNOWN_INPUT_TERM = 'AN_UNKNOWN_INPUT_TERM'
+UNKNOWN_INPUT_TERM_IDX = 0
+
+SUBMISSION_MIN_PROBABILITY = 0.005

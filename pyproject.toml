@@ -1,0 +1,40 @@
+[project]
+name = "cafa6-solution"
+version = "0.1.0"
+description = "CAFA 6 Protein Function Prediction Competition Solution"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "biopython==1.86",
+    "datasets==4.4.2",
+    "ete3==3.1.3",
+    "huggingface-hub==0.36.0",
+    "ipykernel==7.1.0",
+    "ipython==9.6.0",
+    "jsonargparse[signatures]==4.42.0",
+    "kaggle==1.7.4.5",
+    "lightning-utilities==0.15.2",
+    "networkx==3.5",
+    "numpy==2.3.4",
+    "obonet==1.1.1",
+    "omegaconf==2.3.0",
+    "pandas==2.3.3",
+    "protobuf==6.33.0",
+    "pyarrow==23.0.0",
+    "pytorch-lightning==2.5.5",
+    "safetensors==0.7.0",
+    "scikit-learn==1.7.2",
+    "scipy==1.16.3",
+    "sentence-transformers==5.2.0",
+    "sentencepiece==0.2.1",
+    "tensorboard==2.20.0",
+    "tokenizers==0.22.1",
+    "torch==2.8.0",
+    "torchmetrics==1.8.2",
+    "transformers==4.57.1",
+]
+
+[tool.black]
+line-length = 80
+target_version = ['py312']
+skip-string-normalization = true
