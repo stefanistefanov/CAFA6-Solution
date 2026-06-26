@@ -81,7 +81,10 @@ class ProteinDataModule(LightningDataModule):
             sep='\t'
         )
         
-        self.ncbi_taxa = NCBITaxa(update=False)
+        self.ncbi_taxa = NCBITaxa(
+            taxdump_file=os.path.join(data_dir, '..', 'auxiliary', 'taxdump.tar.gz'),
+            update=False
+        )
         if self.hparams.val_dir is not None:
             logger.info('val_dir is provided, fold is ignored')
             val_terms_df = pd.read_csv(
