@@ -22,6 +22,9 @@ The competition dataset and other datasets needed for the solution are available
 export DATA_DIR=<DATA_DIR>
 kaggle datasets download stefanstefanov/cafa6-data --unzip -p $DATA_DIR
 
+# taxdump.tar.gz archive is needed for ete3.NCBITaxa
+cd ${DATA_DIR}/auxiliary/taxdump && tar -czvf ../taxdump.tar.gz * && cd -
+
 # The competition dataset should be placed inside the $DATA_DIR in `cafa-6-protein-function-prediction` directory
 kaggle competitions download -c cafa-6-protein-function-prediction -p $DATA_DIR
 unzip $DATA_DIR/cafa-6-protein-function-prediction.zip -d $DATA_DIR/cafa-6-protein-function-prediction
@@ -30,7 +33,8 @@ unzip $DATA_DIR/cafa-6-protein-function-prediction.zip -d $DATA_DIR/cafa-6-prote
 export MODELS_DIR=<MODELS_DIR>
 kaggle datasets download stefanstefanov/cafa6-models --unzip -p $MODELS_DIR
 
-# cafa6-3di and cafa6-pubmed datasets are optional and only needed for generating the embeddings with the `create_embeddings.sh` script. The already generated embeddings are included in the cafa6-data dataset and they can be used directly for training and prediction.
+# cafa6-3di and cafa6-pubmed datasets are optional and only needed for generating the embeddings with the `create_embeddings.sh` script.
+# The already generated embeddings are included in the cafa6-data dataset and they can be used directly for training and prediction.
 export DATASET_3DI_DIR=<DATASET_3DI_DIR>
 kaggle datasets download stefanstefanov/cafa6-3di --unzip -p $DATASET_3DI_DIR
 
@@ -57,4 +61,15 @@ The script with commands for generating the embeddings is `create_embeddings.sh`
 ```bash
 export EMBEDDINGS_OUTPUT_DIR=<EMBEDDINGS_OUTPUT_DIR>
 ./create_embeddings.sh
+```
+
+### Docker Container
+The solution can also be run inside a Docker container. The Dockerfile is provided in the repository.
+```bash
+# The kaggle secret is needed for the competition dataset download.
+# It is mounted only at build time and not baked into the image.
+docker build --secret id=kaggle,src=$HOME/.kaggle/kaggle.json -t cafa6-solution .
+
+# OUTPUT_DIR is an empty directory for storing output artifacts
+docker run --gpus device=0  --shm-size=2g -v ${OUTPUT_DIR}:/output cafa6-solution
 ```
