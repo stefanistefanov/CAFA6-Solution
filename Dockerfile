@@ -39,12 +39,16 @@ RUN --mount=type=secret,id=kaggle,target=/root/.kaggle/kaggle.json \
     kaggle datasets download stefanstefanov/cafa6-3di --unzip -p ${DATASET_3DI_DIR} && \
     kaggle datasets download stefanstefanov/cafa6-pubmed --unzip -p ${PUBMED_DATASET_DIR}
 
-WORKDIR /opt
-RUN git clone https://github.com/stefanistefanov/CAFA6-Solution.git cafa6-solution
+# taxdump.tar.gz archive is needed for ete3.NCBITaxa
+RUN cd ${DATA_DIR}/auxiliary/taxdump && tar -czvf ../taxdump.tar.gz * && cd -
+
 WORKDIR /opt/cafa6-solution
 
-RUN uv sync && uv pip install -e .
+# Install dependencies first to use Docker layer cache
+COPY pyproject.toml ./
+RUN uv sync --no-install-project
 
-RUN cd /data/auxiliary/taxdump && tar -czvf ../taxdump.tar.gz * && cd -
+COPY . .
+RUN uv sync && uv pip install -e .
 
 ENTRYPOINT ["./predict_ensemble.sh"]
